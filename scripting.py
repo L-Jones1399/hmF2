@@ -1,7 +1,7 @@
 #Name: scripting.py
 #Author: Liam Jones
 #Purpose: Get data from the GIRO website and download it, ready to be analysed
-#Last Modified: 21/12/2023
+#Last Modified: 03/01/2024
 
 
 #TO INSTALL PACKAGES : py -m pip install _____
@@ -10,7 +10,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-import os
 import configparser
 
 #User defined variables (start date, end date)
@@ -21,9 +20,9 @@ RelevantData = "hmF2 -- Peak height F2-layer"
 #Reading the config file using the configparser library
 config = configparser.ConfigParser()
 config.read('config.dat')
+#Sets the save directory based on the config file
 save_directory = config['Settings']['save_directory']
 
-current_script_path = os.path.abspath(__file__) #WILL BE REPLACED WITH CONFIG FILE .dat
 
 # Using Chrome to access web
 driver = webdriver.Chrome()
