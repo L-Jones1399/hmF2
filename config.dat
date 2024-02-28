@@ -1,7 +1,18 @@
 [Settings]
 save_directory = C:\Users\Jones\OneDrive\Documents\Visual_Studio_2022\Work_Experience\Testing
+
 max_distance = 100
+
 StationList = StationList_2023.03.01_to_2023.05.01.dat
+
 COSMIC_Files = ["COSMIC2023.dat"]
+
 start_date = (2023, 3, 1) #No leading zeros allowed. Format is (Year, Month, Day)
+
 end_date = (2023, 4, 30)
+
+#The code is only set up to do one variable at a time. For a full list of variables, please visit https://giro.uml.edu/didbase/scaled.php
+#To get multiple variables at a time (not supported here), do hmF2,foF2,etc
+Relevant_Variable = AAAAA 
+
+KP_File = Kp_data_Liam.csv
