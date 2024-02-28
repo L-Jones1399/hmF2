@@ -176,6 +176,7 @@ Comparing both point's lat and lon to find match using Haversine's formula
 #Outputs: COSMIC_match_hmF2 (list) - list of all hmF2 from COSMIC that had a match. GIRO_match_hmF2 (list) - list of corresponding matches from GIRO
         # Distances_List (list) - List containing the distance each point was from each other
 def FindMatches(save_directory, Cleaned_array, max_distance, StationList):
+    print("Started finding matches between COSMIC and GIRO")
     StationConfig, Station_Names = ImportStationData(save_directory, StationList)
     
     #Creating blank lists that get appended to further down
@@ -222,9 +223,10 @@ def FindMatches(save_directory, Cleaned_array, max_distance, StationList):
             COSMIC_Date = datetime.fromisoformat(COSMIC_Date)
             
             #Should only allow every 100th match to be printed, to save on terminal space
+            #This is just to see how many have been done, and how many are to go
             print_index += 1
             if print_index % 100 ==0:  
-                print("Current Date: " + str(COSMIC_Date) + f" ({str(i)})")
+                print(f"Current Date: {str(COSMIC_Date)}, iteration {str(i)} out of {len(Cleaned_array)}")
 
             #Call function ClosesetTime, which finds and returns the closest time from a given station, and the hmF2 value at that time
             Closest_Date, Closest_Date_Index, Closest_Date_hmF2, StationName = ClosestTime(Closest_Station, COSMIC_Date, StationConfig)
@@ -233,7 +235,7 @@ def FindMatches(save_directory, Cleaned_array, max_distance, StationList):
             COSMIC_Match_hmF2.append(Cleaned_array[i][5])
             GIRO_Match_hmF2.append(Closest_Date_hmF2)
             Distances_List.append(Smallest_Distance)
-
+    print("Finished finding matches")
     return COSMIC_Match_hmF2, GIRO_Match_hmF2, Distances_List
 
 
@@ -266,7 +268,6 @@ def ColourScatter(COSMIC_Match_hmF2, GIRO_Match_hmF2, max_distance, Distances_Li
 
     #Create the scatter plot
     scatter = plt.scatter(COSMIC_Match_hmF2, GIRO_Match_hmF2, c=bin_indices, cmap=colormap, norm=norm, edgecolors='black', linewidth=0.5, label = "Data Points")
-    print(len(COSMIC_Match_hmF2))
     #Add colour bar
     cbar = plt.colorbar(ticks=NoOfBins)
 
@@ -356,7 +357,7 @@ def SpecificScatter(COSMIC_Match_hmF2, GIRO_Match_hmF2, Distances_List, max_dist
 #Inputs: COSMIC_Match_hmF2 (list), GIRO_Match (list), max_distance (int), Distances_list (list)
 #Outputs: Plot of RMSE vs distance, Plot of Correlation Coeffient vs distance
 def RMSE_Plot_Over_Distance(COSMIC_Match_hmF2, GIRO_Match_hmF2, Distances_List, max_distance):
-    print("RMSE")
+    print("Starting to plot the RMSE over distance")
     #Do RMSE from 0-20, 20-40 etc
     BinLimits = np.arange(0,max_distance + 1,20)
     bin_indices = np.digitize(Distances_List, BinLimits, right=True)
@@ -403,9 +404,10 @@ def RMSE_Plot_Over_Distance(COSMIC_Match_hmF2, GIRO_Match_hmF2, Distances_List, 
     plt.xlabel("Bins")
     plt.ylabel("RMSE")
     plt.show()
+    print("Finished plotting the RMSE over distance")
 
 def SingleStation(save_directory, max_distance, StationConfig, Cleaned_array, Station, GeoMag_dict):
-    print(Station)
+    print(f'Currently analysing {Station}')
     '''
     In the two month for one station, go through every point and find the closest COSMIC spatially and temporally
     '''
@@ -697,6 +699,7 @@ def TimeBins(x_filtered, y_filtered, date_filtered, GIRO_Lat, GIRO_Lon, save_dir
 
     plt.tight_layout()
     Space_Removed_Station = Station.replace(" ", "_")
+    #Saves the graph into the Graph folder
     plt.savefig(save_directory + f'\\{Space_Removed_Station}_Bins.png')
     #fig.suptitle("Breakdown of time for COCOS Island")
     plt.close(fig)
@@ -743,7 +746,7 @@ def CalculateCoefficients(x_data, y_data):
 #Outputs: Contour plot
 def BinLatitude(All_RMSE):
     #print(All_RMSE)
-    print("BinLatitude")
+    print("Started Creating the Contour plot for latitude vs Time")
 
     #Clean the RMSE to remove all entries that do not fall within the -40 to 40 degree window
     # mask = (All_RMSE[:, 7] >= -40) & (All_RMSE[:, 7] <= 40)
@@ -791,7 +794,6 @@ def BinLatitude(All_RMSE):
     This contour plot is a break down of how the RMSE values change over time with respect to local time of day
     ranging over the latitude range that the COSMIC satellite sees
     '''
-    print(Latitude_grid)
 
     # Add colorbar for reference
     colorbar = plt.colorbar()
@@ -804,12 +806,11 @@ def BinLatitude(All_RMSE):
 
     # Show the plot
     plt.show()
-    print("done")
+    print("Finished Creating the Contour plot for latitude vs Time")
 
 #Name: CleanLatitude
 #Purpose: Remove any ground stations that don't fall within -40 to 40 latitude
 def CleanLatitude(StationConfig, Station_Names):
-    print("Clean Latitude")
     Clean_Stations = []
     for Station in Station_Names:
         GIRO_Lat = float(StationConfig[Station]["lat"])
@@ -978,7 +979,7 @@ def GeoActivityPlot(x_values, y_values, Date_Values, GIRO_Lat, GIRO_Lon, save_di
     return Bin_RMSE
 
 def ContourGeoMag(All_RMSE):
-    print("Contour Geo Mag")
+    print("Started on the Contour for the GeoMag")
     BinLimits = np.arange(-40, 41, 5)
 
     '''
@@ -1022,7 +1023,6 @@ def ContourGeoMag(All_RMSE):
     This contour plot is a break down of how the RMSE values change with latitude vs Geomagnetic storm intensity
     ranging over the latitude range that the COSMIC satellite sees
     '''
-    print(Latitude_grid)
 
     # Add colorbar for reference
     colorbar = plt.colorbar()
@@ -1035,11 +1035,11 @@ def ContourGeoMag(All_RMSE):
 
     # Show the plot
     plt.show()
-    print("done")
+    print("Finished the Contour for the GeoMag")
 
 
 if __name__ == "__main__": 
-
+    print("Starting the COSMIC Analysis")
     save_directory, max_distance, StationList, COSMIC_Files, start_date, end_date, KP_File = Initialise()
     Cleaned_array = ReadCOSMIC(save_directory, COSMIC_Files)
 
@@ -1107,3 +1107,5 @@ if __name__ == "__main__":
 
     #This function takes the lists of matching points and creates a plot of how the RMSE values change as the distance between the points increases
     #RMSE_Plot_Over_Distance(COSMIC_Match_hmF2, GIRO_Match_hmF2, Distances_List, max_distance)
+
+    print("Finished the COSMIC Analysis")
