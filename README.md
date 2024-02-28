@@ -1,8 +1,6 @@
-config.dat - config file that gives the location of where it saves/accesses files.
+config.dat - config file that gives the location of where it saves/accesses files, along with a handful of other user changed variables
 
-scripting.py - python script that acccesses the GIRO website and saves into text files the information that we specify for all stations
-
-CleanUp.py - python script that takes the information previously generated and cleans up the text files to include only relevant information. Then saves all the text files into one .dat file for ease of access
+scripting.py - python script that acccesses the GIRO website and saves the information that we specify into a singular .dat file
 
 Cosmic_Analysis.py - python script that compares every COSMIC observation, trying to find a match in the GIRO observations that is within a specified radius of it, as well as the closest in time. Also creates a scatter plot of the two
 
