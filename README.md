@@ -7,3 +7,5 @@ Cosmic_Analysis.py - python script that compares every COSMIC observation, tryin
 StationList_2023.03.01_to_2023.04.30.dat - The file that scripting.py should give you if you're running it over these two months for hmF2
 
 COSMIC2023.dat - A file containing the COSMIC observations that are used for my graphs.
+
+StationCodes.txt - A text file containing all GIRO station's codes, which are fed into scripting.py
