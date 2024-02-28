@@ -74,7 +74,7 @@ def SaveData(save_directory, data_table, StationName, StationCode):
 
 
 if __name__ == "__main__": 
-    #User defined variables (start date, end date)
+    print("Running the API caller")
 
     #Reading the config file using the configparser library
     config = configparser.ConfigParser()
@@ -144,3 +144,4 @@ if __name__ == "__main__":
         if len(lines) < 25:
             continue
         CleanData(save_directory, lines, code)
+    print("Done")
