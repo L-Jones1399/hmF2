@@ -1,18 +1,27 @@
 [Settings]
+#The save directory that the programs will be looking at to find specific files and to save others
 save_directory = C:\Users\Jones\OneDrive\Documents\Visual_Studio_2022\Work_Experience\Testing
 
+#The maximum distance that a GIRO and COSMIC point can be
 max_distance = 100
 
+#The name of the .dat file that is generated in scripting.py
+#Or in other words, the name of the file that contains the GIRO information of all stations over the specified timeframe
 StationList = StationList_2023.03.01_to_2023.05.01.dat
 
+#List containing all COSMIC files that will be used and matched with the GIRO measurements
+#For multiple files: ["COSMIC2020.dat", "COSMIC2021.dat", "COSMIC2023.dat"] and so on
 COSMIC_Files = ["COSMIC2023.dat"]
 
+#The start of the specified time frame
 start_date = (2023, 3, 1) #No leading zeros allowed. Format is (Year, Month, Day)
 
+#The end of the specified time frame
 end_date = (2023, 4, 30)
 
 #The code is only set up to do one variable at a time. For a full list of variables, please visit https://giro.uml.edu/didbase/scaled.php
 #To get multiple variables at a time (not supported here), do hmF2,foF2,etc
-Relevant_Variable = AAAAA 
+Relevant_Variable = hmF2 
 
+#The name of the KP index file that contains the date and KP value
 KP_File = Kp_data_Liam.csv
